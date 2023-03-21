@@ -326,11 +326,10 @@ public class Mainframe extends JFrame {
 			else if(node.getType() == 3 && p.getHealth() <= 95) {
 				// + -> increase health by 5
 				p.setHealth(p.getHealth()+5);
-				didEffect = true;
-			}
-			else if(node.getType() == 3 && p.getHealth() > 95 && p.getHealth() < 100) {
-				// + -> increase health by 5
-				p.setHealth(100);
+
+				if (p.getHealth() > 100) {
+					p.setHealth(100);
+				}
 				didEffect = true;
 			}
 			else if(node.getType() == 4) {
