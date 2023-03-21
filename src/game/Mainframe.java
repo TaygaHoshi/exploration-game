@@ -9,6 +9,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.Random;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -25,6 +27,11 @@ public class Mainframe extends JFrame {
 	private Mazes m = new Mazes();
 	private Player p = new Player(0, 0, 100, 0);
 	private int level = 1;
+
+	JTextPane txtpnGamescreen;
+	JLabel lblPlayerhealth;
+	JLabel lblPlayerscore;
+	JLabel lblLevel;
 
 
 	
@@ -44,23 +51,24 @@ public class Mainframe extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel lblLevel = new JLabel("Level: " + level);
+		lblLevel = new JLabel("Level: " + level);
 		lblLevel.setBounds(731, 253, 177, 14);
 		contentPane.add(lblLevel);
 		
-		JTextPane txtpnGamescreen = new JTextPane();
+		txtpnGamescreen = new JTextPane();
 		txtpnGamescreen.setEditable(false);
 		txtpnGamescreen.setFont(new Font("Courier New", Font.PLAIN, 15));
 		txtpnGamescreen.setBackground(Color.WHITE);
 		txtpnGamescreen.setText("GameScreen");
 		txtpnGamescreen.setBounds(10, 11, 711, 525);
+		txtpnGamescreen.setFocusable(false);
 		contentPane.add(txtpnGamescreen);
 		
-		JLabel lblPlayerhealth = new JLabel("Health: " + String.valueOf(p.getHealth()));
+		lblPlayerhealth = new JLabel("Health: " + String.valueOf(p.getHealth()));
 		lblPlayerhealth.setBounds(731, 203, 177, 14);
 		contentPane.add(lblPlayerhealth);
 		
-		JLabel lblPlayerscore = new JLabel("Score: " + String.valueOf(p.getScore()));
+		lblPlayerscore = new JLabel("Score: " + String.valueOf(p.getScore()));
 		lblPlayerscore.setBounds(731, 228, 177, 14);
 		contentPane.add(lblPlayerscore);
 
@@ -112,7 +120,36 @@ public class Mainframe extends JFrame {
                 
             }
         });
+
+		this.setFocusable(true);
 		
+		addKeyListener(new KeyListener() {
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+		
+				int key = arg0.getKeyCode();
+		
+				System.out.println("Pressed: " + Integer.toString(key));
+				if (key == KeyEvent.VK_UP) {
+					moveplayer(1,txtpnGamescreen, lblPlayerhealth, lblPlayerscore, lblLevel);
+				} else if (key == KeyEvent.VK_LEFT) {
+					moveplayer(4,txtpnGamescreen, lblPlayerhealth, lblPlayerscore, lblLevel);
+				} else if (key == KeyEvent.VK_DOWN) {
+					moveplayer(2,txtpnGamescreen, lblPlayerhealth, lblPlayerscore, lblLevel);
+				}else if (key == KeyEvent.VK_RIGHT) {
+					moveplayer(3,txtpnGamescreen, lblPlayerhealth, lblPlayerscore, lblLevel);
+				}
+			}
+		
+		
+			@Override
+			public void keyReleased(KeyEvent arg0) {}
+		
+		
+			@Override
+			public void keyTyped(KeyEvent arg0) {}
+		});
+
 		drawMap(txtpnGamescreen);
 		
 		
@@ -321,4 +358,7 @@ public class Mainframe extends JFrame {
 		levelindicator.setText("Level: " + level);
 		generateMap();
 	}
+
+
+
 }
